@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Design Tokens Preview</title>
+  <link rel="stylesheet" href="../src/colors.css">
+  <link rel="stylesheet" href="../src/typography.css">
+  <style>
+    body { background: var(--color-bg); color: var(--color-gray-night); font-family: var(--font-body); padding: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+    .card { border-radius: 16px; padding: 12px; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,.05); }
+    .swatch { border-radius: 12px; height: 96px; margin-bottom: 8px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+    code { background: rgba(0,0,0,.05); padding: 2px 6px; border-radius: 6px; }
+    h1 { margin-bottom: 12px; }
+    h2 { margin: 24px 0 12px; }
+    .row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; }
+  </style>
+</head>
+<body>
+  <h1 class="h1">🎨 Color Tokens</h1>
+  <div class="grid" id="colors"></div>
+
+  <h2 class="h2">🔤 Typography Samples</h2>
+  <div class="card">
+    <div class="display">Display/Hero</div>
+    <div class="h1">H1 – Page Title</div>
+    <div class="h2">H2 – Section Title</div>
+    <div class="h3">H3 – Card Title</div>
+    <p class="body-lg">Body Large — Open Sans 18px Regular</p>
+    <p class="body">Body Base — Open Sans 16px Regular</p>
+    <p class="body-sm">Body Small — Open Sans 14px Regular</p>
+    <p class="caption">Caption — Open Sans 12px SemiBold</p>
+    <p><span class="button-text">Button Text — Nunito 16px SemiBold</span></p>
+    <label class="input-label">Input Label</label>
+    <input class="input-text" placeholder="Input Field Text" style="padding:8px;border-radius:8px;border:1px solid #ddd;display:block;margin-top:4px;">
+  </div>
+
+  <script type="module">
+    import {{ colors }} from '../src/colors.js';
+    const sections = [
+      ['Primary', colors.primary],
+      ['Secondary', colors.secondary],
+      ['Tertiary', colors.tertiary],
+      ['Greyscale', colors.greyscale],
+      ['Semantic', colors.semantic],
+    ];
+    const grid = document.getElementById('colors');
+    sections.forEach(([title, obj]) => { 
+      Object.entries(obj).forEach(([name, hex]) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="swatch" style="background:${hex}"></div>
+          <div class="row">
+            <strong>${title} / ${name}</strong>
+            <code>${hex}</code>
+          </div>`;
+        grid.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>
